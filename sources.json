@@ -11,11 +11,6 @@
       "hash": "sha256-SwsVtpRk6LamZSkNcCgXZUviEkzx1Y+tfX7VdU+UMdc=",
       "size": 4720552
     },
-    "x86_64-darwin": {
-      "url": "https://github.com/schpet/linear-cli/releases/download/v3.1.0/linear-x86_64-apple-darwin.tar.xz",
-      "hash": "sha256-2ePOpPVwO/wqPJhifku2nXUyrzmp1SMWUCWpAVOS4Lc=",
-      "size": 4890492
-    },
     "aarch64-darwin": {
       "url": "https://github.com/schpet/linear-cli/releases/download/v3.1.0/linear-aarch64-apple-darwin.tar.xz",
       "hash": "sha256-u6gc884Z80hvGtpSz5hBqNdJ/KcWM46mhOazsIpwaVQ=",

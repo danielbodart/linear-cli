@@ -7,7 +7,7 @@ name: Upstream
 # scripts/update.sh.
 #
 # The version only reaches trunk after it has actually built and run on all
-# four systems. That is why this pushes straight to trunk instead of opening
+# three systems. That is why this pushes straight to trunk instead of opening
 # a pull request: a PR raised by GITHUB_TOKEN does not trigger workflows, so
 # an auto-merged one would land unverified.
 #
@@ -84,8 +84,6 @@ jobs:
             system: x86_64-linux
           - runner: ubuntu-24.04-arm
             system: aarch64-linux
-          - runner: macos-15-intel
-            system: x86_64-darwin
           - runner: macos-latest
             system: aarch64-darwin
     runs-on: ${{ matrix.runner }}
@@ -127,7 +125,7 @@ jobs:
           git add sources.json
           git commit \
             -m "linear-cli: $PREVIOUS -> $VERSION" \
-            -m "Hashes from upstream's GitHub release, each checked against GitHub's digest, the release's own sums and the downloaded tarball. Built and run on x86_64-linux, aarch64-linux, x86_64-darwin and aarch64-darwin before landing."
+            -m "Hashes from upstream's GitHub release, each checked against GitHub's digest, the release's own sums and the downloaded tarball. Built and run on x86_64-linux, aarch64-linux and aarch64-darwin before landing."
           git pull --rebase origin trunk
           git push origin HEAD:trunk
 

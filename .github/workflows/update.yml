@@ -14,7 +14,7 @@ name: Weekly update
 # Cachix, so a stale lock is a stale glibc in the closure, next to the
 # system's.
 #
-# The moved lock is built and run on all four systems, and its package
+# The moved lock is built and run on all three systems, and its package
 # pushed to Cachix, by the same build action as CI before it lands. That
 # matters doubly here: a push made with GITHUB_TOKEN does not trigger CI, so
 # nothing else would ever build it. It lands as "Weekly update: <inputs>".
@@ -100,8 +100,6 @@ jobs:
             system: x86_64-linux
           - runner: ubuntu-24.04-arm
             system: aarch64-linux
-          - runner: macos-15-intel
-            system: x86_64-darwin
           - runner: macos-latest
             system: aarch64-darwin
     runs-on: ${{ matrix.runner }}
@@ -138,6 +136,6 @@ jobs:
           git add flake.lock
           git commit \
             -m "Weekly update: $MOVED" \
-            -m "Built and run on x86_64-linux, aarch64-linux, x86_64-darwin and aarch64-darwin, and pushed to Cachix, before landing."
+            -m "Built and run on x86_64-linux, aarch64-linux and aarch64-darwin, and pushed to Cachix, before landing."
           git pull --rebase origin trunk
           git push origin HEAD:trunk

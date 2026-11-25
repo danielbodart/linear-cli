@@ -27,8 +27,6 @@ jobs:
             system: x86_64-linux
           - runner: ubuntu-24.04-arm
             system: aarch64-linux
-          - runner: macos-15-intel
-            system: x86_64-darwin
           - runner: macos-latest
             system: aarch64-darwin
     runs-on: ${{ matrix.runner }}
@@ -44,7 +42,7 @@ jobs:
 
   # sources.json is machine-written, so the thing worth checking on a pull
   # request is that a human has not hand-edited it into disagreeing with the
-  # release it claims to come from. This downloads all four tarballs, as the
+  # release it claims to come from. This downloads all three tarballs, as the
   # updater does, and compares the hashes of what came down.
   sources-match-release:
     runs-on: ubuntu-latest

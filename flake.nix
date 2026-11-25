@@ -20,12 +20,12 @@
     { self, nixpkgs }:
     let
       # Upstream publishes the CLI for Linux, macOS and Windows. This flake
-      # packages the four Unix builds: Linux and macOS, each on amd64 and
-      # arm64.
+      # packages Linux on amd64 and arm64, and macOS on Apple silicon. Not
+      # Intel macOS: nixpkgs 26.11 drops x86_64-darwin, so it could be
+      # neither built nor tested here for long.
       systems = [
         "x86_64-linux"
         "aarch64-linux"
-        "x86_64-darwin"
         "aarch64-darwin"
       ];
 
@@ -82,12 +82,11 @@
                 jq -e '
                   . as $s
                   | ($s.version | test("^[0-9]+\\.[0-9]+\\.[0-9]+$"))
-                    and ($s.sources | keys == ["aarch64-darwin", "aarch64-linux", "x86_64-darwin", "x86_64-linux"])
+                    and ($s.sources | keys == ["aarch64-darwin", "aarch64-linux", "x86_64-linux"])
                     and ($s.sources | to_entries | all(
                       .value.url | startswith("https://github.com/schpet/linear-cli/releases/download/v\($s.version)/")))
                     and ($s.sources."x86_64-linux".url | endswith("/linear-x86_64-unknown-linux-gnu.tar.xz"))
                     and ($s.sources."aarch64-linux".url | endswith("/linear-aarch64-unknown-linux-gnu.tar.xz"))
-                    and ($s.sources."x86_64-darwin".url | endswith("/linear-x86_64-apple-darwin.tar.xz"))
                     and ($s.sources."aarch64-darwin".url | endswith("/linear-aarch64-apple-darwin.tar.xz"))
                     and ($s.sources | to_entries | all(.value.hash | test("^sha256-[A-Za-z0-9+/]{43}=$")))
                 ' ${./sources.json} >/dev/null || {

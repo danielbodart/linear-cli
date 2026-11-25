@@ -73,10 +73,11 @@ stop this.
 
 - `x86_64-linux`
 - `aarch64-linux`
-- `x86_64-darwin`
 - `aarch64-darwin`
 
-Upstream also publishes a Windows build. This flake does not package it.
+Upstream also publishes builds for Intel macOS and Windows. This flake does
+not package them. nixpkgs 26.11 drops `x86_64-darwin`, so CI could not build
+or test that build for long.
 
 ## Provenance
 
@@ -113,7 +114,7 @@ Then the script writes the hash to `sources.json` as an SRI hash.
 Nix checks that hash again at build time.
 
 CI runs the script again for each pull request and push.
-It downloads all four tarballs.
+It downloads all three tarballs.
 It fails if `sources.json` does not agree with the release at the same version.
 
 ## Network and self-update
@@ -150,8 +151,8 @@ Updates to this repository do not change a pinned tag.
 - **Hourly** (`upstream.yml`, minute 17): the job reads upstream's latest stable
   release. If the version changed, it does these steps:
   1. It writes a new `sources.json`.
-  2. It builds the package and runs `linear --version` on all four systems.
-  3. If all four pass, it commits to `trunk`, tags `v<version>` and makes a GitHub release.
+  2. It builds the package and runs `linear --version` on all three systems.
+  3. If all three pass, it commits to `trunk`, tags `v<version>` and makes a GitHub release.
 
   The job pushes to `trunk` directly. A pull request made with the default
   token does not start workflows, so an auto-merged one would land without a build.
@@ -163,7 +164,7 @@ Updates to this repository do not change a pinned tag.
 
 ## Binary cache
 
-CI pushes all four systems to `https://danielbodart.cachix.org`.
+CI pushes all three systems to `https://danielbodart.cachix.org`.
 
 The flake offers the cache through `nixConfig`.
 Nix uses it only for a trusted user.
@@ -198,7 +199,7 @@ That needs no network and no login.
 ```bash
 nix develop                   # curl, jq, tar, xz, shellcheck, nixfmt
 nix flake check               # build the package, run shellcheck, check the pin
-./scripts/update.sh           # write sources.json again (downloads all four tarballs)
+./scripts/update.sh           # write sources.json again (downloads all three tarballs)
 ./scripts/update.sh --check   # exit non-zero if a newer stable release exists
 ./scripts/update.sh --force   # download and write again, also when current
 ```
